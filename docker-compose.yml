@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  db:
+    container_name: db
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=wordcloud_admin
+      - POSTGRES_PASSWORD=notsosafepw
+      - POSTGRES_DB=wordcloud
+    ports:
+      - '5432:5432'
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+  wordcloudcore:
+    build: ./wordCloudCore
+    depends_on:
+      - db
+      - rabbitmq
+    restart: unless-stopped
+    container_name: wordcloudcore
+    ports:
+      - "9000:9000"
+  wordcloudtextprocess:
+    build: ./wordCloudTextProcess
+    depends_on:
+      - db
+      - rabbitmq
+    restart: unless-stopped
+    container_name: wordcloudtextprocess
+    ports:
+      - "9001:9001"
+  wordcloudtextprocess:
+    build: ./wordCloudTextProcess
+    depends_on:
+      - db
+      - rabbitmq
+    restart: unless-stopped
+    container_name: wordcloudtextprocess
+    ports:
+      - "9001:9001"
+

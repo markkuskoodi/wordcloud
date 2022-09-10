@@ -1,20 +1,21 @@
 package com.wordCloudCore.models;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity(name = "Text_file")
-public class Text_File {
+@Entity(name = "TextFile")
+@Table(name = "textfile")
+public class TextFile {
 
     @Id
     private String id;
 
     private String file_name;
 
-    public Text_File(){}
+    public TextFile(){}
 
-    public Text_File(String id, String file_name) {
+    public TextFile(String id, String file_name) {
         this.id = id;
         this.file_name = file_name;
     }

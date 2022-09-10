@@ -1,4 +1,4 @@
-package models;
+package com.wordCloudTextProcess.models;
 
 
 import lombok.AllArgsConstructor;
@@ -17,4 +17,5 @@ public class TextProcessMessage {
     private String fileName;
     private String file_content;
     private Date messageDate;
+    private int message_nr;
 }

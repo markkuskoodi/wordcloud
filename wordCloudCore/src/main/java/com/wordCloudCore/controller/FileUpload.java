@@ -1,7 +1,10 @@
 package com.wordCloudCore.controller;
 
 import com.wordCloudCore.config.MQConfig;
+import com.wordCloudCore.models.TextFile;
 import com.wordCloudCore.models.TextProcessMessage;
+import com.wordCloudCore.repository.TextFileRepository;
+import net.bytebuddy.utility.RandomString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,13 +21,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
 public class FileUpload {
 
     private static final Logger log = LoggerFactory.getLogger(FileUpload.class);
     private static final StopWatch sw = new org.springframework.util.StopWatch();
+
+    @Autowired
+    TextFileRepository textFileRepository;
 
     @Autowired
     private RabbitTemplate template;
@@ -40,15 +48,24 @@ public class FileUpload {
 
         TextProcessMessage message = new TextProcessMessage();
 
-        String uniqueMessageId = UUID.randomUUID().toString().substring(8);
+        String uniqueMessageId = Objects.requireNonNull(text_file.getOriginalFilename()).replace(".txt", "") + "-" + UUID.randomUUID().toString().substring(0, 8);
         Date currentDate = new Date();
         message.setMessageId(uniqueMessageId);
         message.setFileName(text_file.getOriginalFilename());
         message.setMessageDate(currentDate);
-        for (int i = 0; i < text_for_processing.size(); i++) {
-            message.setFile_content(text_for_processing.get(i));
+        int message_nr = 1;
+
+        for (String s : text_for_processing) {
+            message.setFile_content(s);
+            message.setMessage_nr(message_nr);
             template.convertAndSend(MQConfig.EXCHANGE, MQConfig.ROUTING_KEY, message);
+
+            message_nr++;
         }
+        sw.start("PostgreSQL insertion time");
+        textFileRepository.save(new TextFile(uniqueMessageId, text_file.getOriginalFilename()));
+        sw.stop();
+        log.info("Time taken by the last task: " + sw.getLastTaskName() + ":" + (float) sw.getLastTaskTimeMillis() / 1000 + "sec");
     }
 
     public static ArrayList<String> capsulate_text(InputStream text_Stream){
@@ -70,6 +87,8 @@ public class FileUpload {
                     line_count++;
                 }
             }
+            capsulated_texts.add(sb.toString());
+            sb.setLength(0);
         } catch (IOException e){
             System.out.println(e);
         }

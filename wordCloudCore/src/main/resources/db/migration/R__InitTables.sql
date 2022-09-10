@@ -1,4 +1,0 @@
-CREATE TABLE textfile(
-    id  VARCHAR(8) NOT NULL PRIMARY KEY,
-    file_name VARCHAR(100) NOT NULL
-);

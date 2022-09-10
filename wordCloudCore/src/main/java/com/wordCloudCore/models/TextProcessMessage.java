@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import net.bytebuddy.utility.RandomString;
 
 import java.util.Date;
 
@@ -17,4 +18,5 @@ public class TextProcessMessage {
     private String fileName;
     private String file_content;
     private Date messageDate;
+    private int message_nr;
 }

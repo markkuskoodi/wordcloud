@@ -3,7 +3,7 @@ package com.wordCloudTextProcess;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = WordCloudTextProcessApplicationTests.class)
 class WordCloudTextProcessApplicationTests {
 
 	@Test
