@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -14,8 +13,7 @@ import java.util.Date;
 @ToString
 public class TextProcessMessage {
     private String messageId;
-    private String fileName;
     private String file_content;
-    private Date messageDate;
-    private int message_nr;
+    private String omitted_words;
+    private boolean possible_typos;
 }

@@ -1,10 +1,14 @@
-package com.wordCloudTextProcess.models;
+package com.wordCloudCore.models.database_models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+/**
+ * Class that defines TextProcess object. This object holds a word from the text file and text file identifier.
+ */
 
 @Entity(name="textprocess")
 @Table(name="textprocess")
@@ -32,7 +36,6 @@ public class TextProcess {
             nullable = false
     )
     private String word;
-
 
     @Column(
             name = "text_file_id",

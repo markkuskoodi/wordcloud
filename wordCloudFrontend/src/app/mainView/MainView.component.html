@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body class="main-body">
+  <div class="main-div">
+    <div class="main-header">
+      <h1 class="header_title"><b>WordCloud</b></h1>
+    </div>
+    <div class="main-buttons">
+      <button mat-flat-button color="primary" class="upload_button" (click)="fileupload.open()"><b>Upload text file</b></button>
+      <button mat-flat-button color="primary" class="upload_button"><b>Upload text file</b></button>
+    </div>
+  </div>
+</body>
+
+<app-modal #fileupload [modalConfig]="file_upload" class="modal">
+</app-modal>
+
+</html>

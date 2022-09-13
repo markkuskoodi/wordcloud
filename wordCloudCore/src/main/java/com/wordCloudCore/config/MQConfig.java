@@ -5,15 +5,22 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * RabbitMQ configuration.
+ */
 @Configuration
 public class MQConfig {
 
-    public static final String QUEUE = "message_queue";
-    public static final String EXCHANGE = "message_exchange";
-    public static final String ROUTING_KEY = "message_routingkey";
+    @Value("${text_processed.rabbitmq.queue}")
+    String QUEUE;
+    @Value("${text_processed.rabbitmq.exchange}")
+    String EXCHANGE;
+    @Value("${text_processed.rabbitmq.routingkey}")
+    String ROUTING_KEY;
 
     @Bean
     public Queue queue() {
