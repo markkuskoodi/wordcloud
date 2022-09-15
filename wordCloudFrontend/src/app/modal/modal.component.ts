@@ -1,5 +1,5 @@
 import {Component, Injectable, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalOptions, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {ModalConfig} from "./modal.config";
 
 @Component({
@@ -17,9 +17,14 @@ export class ModalComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  private ngbModalOptions: NgbModalOptions = {
+    keyboard: false,
+    backdrop: 'static'
+  }
+
   open(): Promise<boolean> {
     return new Promise<boolean>(resolve => {
-      this.modalRef = this.modalService.open(this.modalContent)
+      this.modalRef = this.modalService.open(this.modalContent, this.ngbModalOptions)
       this.modalRef.result.then(resolve, resolve)
     })
   }

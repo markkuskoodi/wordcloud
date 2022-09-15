@@ -11,10 +11,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StopWatch;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -24,6 +21,7 @@ import java.io.InputStreamReader;
 import java.time.Instant;
 import java.util.*;
 
+@CrossOrigin(origins="http://localhost:8000")
 @RestController
 public class FileUpload {
 
@@ -47,6 +45,7 @@ public class FileUpload {
      * Endpoint which allows user to upload text file. Endpoint allows user to send words that he wants to omit during the
      * text process and choose if he wants words with spelling error as a processing result or not.
      */
+
     @PostMapping(value = "/upload_txt_file")
     public String uploadFile(@RequestParam("file") MultipartFile text_file, @RequestHeader("omitted-words") String omitted_words, @RequestHeader("possible-typos") boolean possible_typos) throws IOException {
         ArrayList<String> text_for_processing = capsulate_text(text_file.getInputStream());
@@ -94,13 +93,15 @@ public class FileUpload {
         int line_count = 0;
         try {
             while ((line = br.readLine()) != null) {
-                if(line_count == 2000){
-                   capsulated_texts.add(sb.toString());
-                   sb.setLength(0);
-                   line_count = 0;
-                } else {
-                    sb.append(line).append(System.lineSeparator());
-                    line_count++;
+                if(line.length() > 0) {
+                    if (line_count == 2000) {
+                        capsulated_texts.add(sb.toString());
+                        sb.setLength(0);
+                        line_count = 0;
+                    } else {
+                        sb.append(line).append(System.lineSeparator());
+                        line_count++;
+                    }
                 }
             }
             capsulated_texts.add(sb.toString());

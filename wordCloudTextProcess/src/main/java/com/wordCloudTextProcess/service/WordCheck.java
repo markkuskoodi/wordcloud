@@ -10,6 +10,11 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Service that reads all the words into the memory from the text files. These words will be used for checking whether
+ * the word has a possible spelling error or not. These text files are located at the "spell_check_words" folder in
+ * application resources.
+ */
 @Service
 public class WordCheck {
 

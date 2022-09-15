@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * Object which will be sent by WordCloudCore to this service.
+ */
 
 @Data
 @NoArgsConstructor

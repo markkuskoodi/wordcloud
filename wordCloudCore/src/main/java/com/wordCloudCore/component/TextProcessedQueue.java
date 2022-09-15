@@ -15,9 +15,9 @@ import org.springframework.util.StopWatch;
 import java.util.Optional;
 
 /**
- * WordCloudCore component which job is to listen MQ (Message queue) messages and update the "textprocessprogress"
- * table accordingly. Also, if the processing of the text file ends, this component makes the query to the "textresult"
- * table which counts all the words in the "textprocess" table and inserts the query result into the "textresult". After
+ * WordCloudCore component which job is to listen MQ messages and update the "textprocessprogress"
+ * table accordingly. If the processing of the text file ends, this component makes the query to the "textresult"
+ * table which counts each word in the "textprocess" table and inserts the result into the "textresult". After
  * that, this component makes query to delete all rows, which are related to the text file that was processed, in the
  * "textprocess" table.
  */

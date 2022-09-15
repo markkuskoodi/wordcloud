@@ -43,4 +43,15 @@ services:
     container_name: wordcloudtextprocess
     ports:
       - "9001:9001"
+  wordcloudfrontend:
+    build: ./wordCloudFrontend
+    depends_on:
+      - db
+      - wordcloudtextprocess
+      - wordcloudcore
+      - rabbitmq
+    restart: unless-stopped
+    container_name: wordcloudfrontend
+    ports:
+      - "8000:80"
 

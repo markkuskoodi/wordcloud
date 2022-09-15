@@ -1,0 +1,17 @@
+#canvas_container{
+  overflow-y: visible;
+  overflow-x: auto;
+  position: relative;
+}
+
+.wordCloudWordDiv {
+  display:flex;
+  gap: 5px;
+  flex-direction: row;
+}
+
+.wordCloudWordOccurrences {
+  display: flex;
+  gap: 5px;
+  flex-direction: row;
+}

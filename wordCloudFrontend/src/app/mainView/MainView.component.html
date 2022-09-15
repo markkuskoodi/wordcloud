@@ -10,13 +10,52 @@
       <h1 class="header_title"><b>WordCloud</b></h1>
     </div>
     <div class="main-buttons">
-      <button mat-flat-button color="primary" class="upload_button" (click)="fileupload.open()"><b>Upload text file</b></button>
-      <button mat-flat-button color="primary" class="upload_button"><b>Upload text file</b></button>
+      <button mat-flat-button color="primary" class="upload_button" (click)="fileUpload.open()"><b>Upload text file</b></button>
+      <button mat-flat-button color="primary" class="upload_button" (click)="openWordCloudModal()"><b>View wordcloud</b></button>
     </div>
   </div>
 </body>
 
-<app-modal #fileupload [modalConfig]="file_upload" class="modal">
+<app-modal #fileUpload [modalConfig]="fileUploadModalConf" class="modal">
+  <div class="file_upload_div" [hidden]="fileUploadDiv">
+    <input #inputFile class="file_input" type="file" accept=".txt" (change)="onFileSelected($event)"/>
+    <section class="omit_typo_selection">
+      <mat-checkbox [(ngModel)]="possibleTypos" [disabled]="fileSelected">Look for possible spelling errors</mat-checkbox>
+      <label>Words that you don't want to count</label>
+      <input [(ngModel)]="omittedWords" [disabled]="fileSelected" class="omit_text_box" type="text" placeholder="and,yes,I,he's"/>
+    </section>
+    <button #upload_file [disabled]="fileSelected" mat-flat-button class="btn btn-success upload_file" (click)="uploadFile()">Upload</button>
+  </div>
+
+  <div class="file_process_div" [hidden]="fileProcessDiv">
+    <h3>Text file processing</h3>
+    <p><ngb-progressbar type="{{progressBarType}}" [value]="textProcessPercentage" [striped]="true" [animated]="true"><i>{{ textProcessPercentage }}%</i></ngb-progressbar></p>
+  </div>
+
+  <div class="file_identifier" [hidden]="fileIdDiv">
+    <h2 style="font-size:20px;">Text file processing complete!</h2>
+    <h3>Use this identifier to view the result:</h3>
+    <h4><b>{{textFileId}}</b></h4>
+    <h3 style="color:red">NB! This identifier is valid only two hours!</h3>
+  </div>
+  <div class="modal-footer" style="margin-top: 10px">
+    <button class="btn btn-danger float_right" (click)="fileModalClose()">Close</button>
+  </div>
+</app-modal>
+
+<app-modal #toWordCloud [modalConfig]="wordCloudModalConf">
+  <div class="wordCloudModalBody">
+    <h3>Insert your text file identifier</h3>
+    <input [(ngModel)]="text_file_identifier" type="text" name="text_identifier" placeholder="textfile_a309adv0" class="textFileIdentifier">
+    <div class="wordCountCondition">
+      <input id="conditionField" [(ngModel)]="wordCountBiggerThan" class="wordCountConditionInput" type="number" placeholder="Word count bigger than">
+      <input id="conditionField" [(ngModel)]="wordCountSmallerThan" class="wordCountConditionInput" type="number" placeholder="Word count smaller than">
+    </div>
+  </div>
+  <div class="modal-footer" style="height:60px;">
+    <button class="btn btn-success float_right" [disabled]="text_file_identifier.length == 0" (click)="openWordCloud()">Open wordcloud</button>
+    <button class="btn btn-danger float_right" (click)="toWordCloud.close()">Close</button>
+  </div>
 </app-modal>
 
 </html>

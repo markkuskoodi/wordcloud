@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * Database object which contains the word found in string and text file identifier and which will be used to
+ * insert data into a "textprocess" table in the database.
+ */
+
 @Entity(name="textprocess")
 @Table(name="textprocess")
 @Data

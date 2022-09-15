@@ -6,10 +6,7 @@ import com.wordCloudCore.repository.TextResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +16,7 @@ import java.util.Map;
  * RestController which provides endpoint for text processing result. It contains also an endpoint which will be used by
  * the WordCloudFrontend to show the user text processing progress.
  */
+@CrossOrigin(origins = "http://localhost:8000")
 @RestController
 public class WordCloudController {
 
@@ -32,6 +30,8 @@ public class WordCloudController {
                                                        @RequestHeader(value = "count_smaller_than", defaultValue = "9223372036854775807", required = false) long count_smaller_than,
                                                        @RequestHeader(value = "count_bigger_than", defaultValue = "0",required = false) long count_bigger_than){
 
+        System.out.println(count_bigger_than);
+        System.out.println(count_smaller_than);
         List<TextResult> result = textResultRepository.findByTextFileId(id, count_bigger_than, count_smaller_than);
         Map<String, Long> resultMap = new HashMap<>();
 
